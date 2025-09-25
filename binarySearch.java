@@ -17,7 +17,6 @@ public class binarySearch {
         System.out.println("Found 13 at: [" + result2[0] + "," + result2[1] + "]");
     }
 
-    // Binary Search for a key in a sorted 2D matrix
     public static int[] BinaryMatrixSearch(int[][] arr, int key) {
         int rows = arr.length;
         int cols = arr[0].length;
@@ -37,7 +36,8 @@ public class binarySearch {
             }
         }
 
-        return new int[]{-1, -1}; // not found
+        return new int[]{-1, -1};
     }
 	}
+
 
