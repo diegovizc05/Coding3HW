@@ -1,10 +1,10 @@
-// Updated Doubly Linked List version based on your original code
+
 package Driver;
 
 // *doubly linked list*
 public class linkedList {
 
-    // Node class: now supports both next and previous references
+    // Node class supports both next and previous references
     private static class Node {
         Object data;
         Node next;
@@ -20,7 +20,7 @@ public class linkedList {
     private Node head;
     private Node end;
 
-    // Append: Adds node to the tail of the list
+    // Append adds node to the tail of the list
     public void append(Object value) {
         Node newNode = new Node(value);
 
@@ -35,7 +35,7 @@ public class linkedList {
         end = newNode;
     }
 
-    // Prepend: Adds a node to the head of the list
+    // Prepend adds a node to the head of the list
     public void prepend(Object value) {
         Node newNode = new Node(value);
 
@@ -260,3 +260,4 @@ public class linkedList {
         list.printReverse();
     }
 }
+
