@@ -1,0 +1,205 @@
+package Driver;
+
+public class SearchTree {
+
+    //TreeNode inner class
+    private class TreeNode {
+        int value;
+        TreeNode left, right;
+
+        TreeNode(int value) {
+            this.value = value;
+            this.left = null;
+            this.right = null;
+        }
+    }
+
+    private TreeNode root;
+
+    public SearchTree() {
+        root = null;
+    }
+
+    //Insert Method
+    public void insert(int value) {
+        root = insertRec(root, value);
+    }
+
+    private TreeNode insertRec(TreeNode node, int value) {
+        if (node == null) return new TreeNode(value);
+
+        if (value < node.value) {
+            node.left = insertRec(node.left, value);
+        } else if (value > node.value) {
+            node.right = insertRec(node.right, value);
+        }
+        return node; // ignore duplicates
+    }
+
+    //Search Method
+    public boolean search(int value) {
+        return searchRec(root, value);
+    }
+
+    private boolean searchRec(TreeNode node, int value) {
+        if (node == null) return false;
+        if (value == node.value) return true;
+
+        if (value < node.value) return searchRec(node.left, value);
+        return searchRec(node.right, value);
+    }
+
+    // Delete Method
+    public void delete(int value) {
+        root = deleteRec(root, value);
+    }
+
+    private TreeNode deleteRec(TreeNode node, int value) {
+        if (node == null) return null;
+
+        if (value < node.value) {
+            node.left = deleteRec(node.left, value);
+        }
+        else if (value > node.value) {
+            node.right = deleteRec(node.right, value);
+        }
+        else {
+            // No children
+            if (node.left == null && node.right == null) {
+                return null;
+            }
+            // One child
+            else if (node.left == null) {
+                return node.right;
+            }
+            else if (node.right == null) {
+                return node.left;
+            }
+            // Two children
+            else {
+                int successor = findMin(node.right);
+                node.value = successor;
+                node.right = deleteRec(node.right, successor);
+            }
+        }
+        return node;
+    }
+
+    private int findMin(TreeNode node) {
+        while (node.left != null) node = node.left;
+        return node.value;
+    }
+
+    // Traversals
+    public void inorderTraversal() {
+        inorderRec(root);
+        System.out.println();
+    }
+
+    private void inorderRec(TreeNode node) {
+        if (node != null) {
+            inorderRec(node.left);
+            System.out.print(node.value + " ");
+            inorderRec(node.right);
+        }
+    }
+
+    public void reverseOrderTraversal() {
+        reverseRec(root);
+        System.out.println();
+    }
+
+    private void reverseRec(TreeNode node) {
+        if (node != null) {
+            reverseRec(node.right);
+            System.out.print(node.value + " ");
+            reverseRec(node.left);
+        }
+    }
+
+    public void preorderTraversal() {
+        preorderRec(root);
+        System.out.println();
+    }
+
+    private void preorderRec(TreeNode node) {
+        if (node != null) {
+            System.out.print(node.value + " ");
+            preorderRec(node.left);
+            preorderRec(node.right);
+        }
+    }
+
+    public void postorderTraversal() {
+        postorderRec(root);
+        System.out.println();
+    }
+
+    private void postorderRec(TreeNode node) {
+        if (node != null) {
+            postorderRec(node.left);
+            postorderRec(node.right);
+            System.out.print(node.value + " ");
+        }
+    }
+
+    // Height of empty tree = -1
+    public int getHeight() {
+        return heightRec(root);
+    }
+
+    private int heightRec(TreeNode node) {
+        if (node == null) return -1;
+        return 1 + Math.max(heightRec(node.left), heightRec(node.right));
+    }
+
+    // Main
+    public static void main(String[] args) {
+        SearchTree tree = new SearchTree();
+
+        int[] values = {50, 30, 70, 20, 40, 60, 80, 10, 35, 45};
+
+        System.out.println("Inserting values:");
+        for (int v : values) {
+            System.out.print(v + " ");
+            tree.insert(v);
+        }
+        System.out.println("\n");
+
+        System.out.print("Inorder Traversal: ");
+        tree.inorderTraversal();
+
+        System.out.print("Reverse Order Traversal: ");
+        tree.reverseOrderTraversal();
+
+        System.out.print("Preorder Traversal: ");
+        tree.preorderTraversal();
+
+        System.out.print("Postorder Traversal: ");
+        tree.postorderTraversal();
+
+        System.out.println("\nSearch Tests:");
+        System.out.println("Search 40 (exists): " + tree.search(40));
+        System.out.println("Search 99 (does not exist): " + tree.search(99));
+
+        System.out.println("\nDeleting leaf node: 10");
+        tree.delete(10);
+
+        System.out.println("Deleting node with two children: 30");
+        tree.delete(30);
+
+        System.out.print("\nInorder After Deletion: ");
+        tree.inorderTraversal();
+
+        System.out.print("Reverse Order After Deletion: ");
+        tree.reverseOrderTraversal();
+
+        System.out.print("Preorder After Deletion: ");
+        tree.preorderTraversal();
+
+        System.out.print("Postorder After Deletion: ");
+        tree.postorderTraversal();
+
+        System.out.println("\nTree Height: " + tree.getHeight());
+    }
+}
